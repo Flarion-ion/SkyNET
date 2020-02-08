@@ -7,6 +7,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -15,7 +16,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 public class Starter {
-
+public static final String info="//System module info\n"
+        + "version: 1.3\n";
     
 
     public static void main(String[] args) throws IOException, FileNotFoundException,
@@ -24,6 +26,14 @@ public class Starter {
         Config cfg = new Config();
         
         System.out.println("INFO LoadMode: " + LOAD_MODE);
+        String fileSeparator = System.getProperty("file.separator");
+        File inf = new File(AppPath+fileSeparator+"core-module.inf");
+        if(inf.delete()){}
+        FileWriter writer = new FileWriter(inf, false);
+        writer.write(info);
+        writer.flush();
+        writer.close();
+        
         if (LOAD_MODE.equals("default")) {
             //DEFAULT LOADING ALGORITM
             
@@ -34,9 +44,14 @@ public class Starter {
                     if (module.isFile()) {
 
                         if (!module.getName().contains("update")) {
-                            System.out.println("Run module: " + module.getAbsolutePath() + "\\" + module.getName());
+                            System.out.println("Run module: " + module.getAbsolutePath());
                             //run update-module
-                            Process proc = Runtime.getRuntime().exec("java -jar " + ModulesPath + module.getName());
+                            Process proc = Runtime.getRuntime().exec("java -jar " + module.getAbsolutePath());
+                            proc.waitFor();
+            InputStream is = proc.getInputStream();
+            byte b[] = new byte[is.available()];
+            is.read(b, 0, b.length);
+            System.out.println(new String(b));
                             i++;
                         } else {
                             if (module.getName().contains("jar")) {

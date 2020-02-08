@@ -1,8 +1,10 @@
 
 import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -10,7 +12,8 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class StartUpdate {
-
+public static final String info="//Update module info\n"
+        + "version: 2.2\n";
     static String modulesPath = "";
 
     public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
@@ -22,7 +25,16 @@ public class StartUpdate {
             path += tmp[i] + fileSeparator;
         }
         modulesPath = path + "modules\\";
-        System.out.println(modulesPath);
+        File inf = new File(path+"update-module.inf");
+        System.out.println(inf.getAbsolutePath());
+        FileWriter writer = new FileWriter(inf, true);
+         BufferedWriter bufferWriter = new BufferedWriter(writer);
+            bufferWriter.write(info);
+            bufferWriter.close();
+        
+        
+        
+        
         String updateURL = "https://darkcorparation.000webhostapp.com/update.txt";
         System.out.println(args.length);
         if (args.length == 1) {

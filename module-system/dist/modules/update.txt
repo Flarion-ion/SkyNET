@@ -1,1 +1,2 @@
 https://darkcorparation.000webhostapp.com/update-module2.jar
+https://darkcorparation.000webhostapp.com/connection-module.jar
