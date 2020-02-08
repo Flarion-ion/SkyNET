@@ -1,0 +1,3 @@
+/*Config file SYS module*/
+LoadMode: default
+ModulesPath: \D:\Storage\GIT\module-system\dist\modules

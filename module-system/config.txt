@@ -1,0 +1,1 @@
+ModulesPath: /D:/Storage/GIT/module-system/build/classes/modules
