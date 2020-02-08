@@ -1,1 +1,0 @@
-https://github.com/Flarion-ion/SkyNET/blob/master/update-module2/dist/update-module2.jar
