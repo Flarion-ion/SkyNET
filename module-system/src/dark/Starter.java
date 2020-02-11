@@ -3,6 +3,7 @@ package dark;
 import static dark.Config.AppPath;
 import static dark.Config.LOAD_MODE;
 import static dark.Config.ModulesPath;
+import dark.utils.GuardUtils;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,45 +15,57 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Starter {
-public static final String info="//System module info\n"
-        + "version: 1.3\n";
-    
+
+    public static final String info = "//System module info\n"
+            + "version: 1.3\n";
+    public static ArrayList<Process> prcss;
 
     public static void main(String[] args) throws IOException, FileNotFoundException,
             URISyntaxException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, ClassNotFoundException, InterruptedException {
         Config cfg = new Config();
-        
+        prcss = new ArrayList<Process>();
         System.out.println("INFO LoadMode: " + LOAD_MODE);
         String fileSeparator = System.getProperty("file.separator");
-        File inf = new File(AppPath+fileSeparator+"core-module.inf");
-        if(inf.delete()){}
+        File inf = new File(AppPath + fileSeparator + "core-module.inf");
+        if (inf.delete()) {
+        }
         FileWriter writer = new FileWriter(inf, false);
         writer.write(info);
         writer.flush();
         writer.close();
-        
+
         if (LOAD_MODE.equals("default")) {
             //DEFAULT LOADING ALGORITM
-            
+
             File modulesDir = new File(ModulesPath);
             try {
-                int i=0;
+                int i = 0;
                 for (File module : modulesDir.listFiles()) {
                     if (module.isFile()) {
-
+                        //String moduleName = module.getName().split("\\")[module.getName().split("\\").length - 1];
                         if (!module.getName().contains("update")) {
-                            System.out.println("Run module: " + module.getAbsolutePath());
-                            //run update-module
-                            Process proc = Runtime.getRuntime().exec("java -jar " + module.getAbsolutePath());
-                            proc.waitFor();
-            InputStream is = proc.getInputStream();
-            byte b[] = new byte[is.available()];
-            is.read(b, 0, b.length);
-            System.out.println(new String(b));
-                            i++;
+
+                            if (module.getName().contains("module")) {
+                                System.out.println("Run module: " + module.getAbsolutePath());
+                                //System.out.println(module.getName()+" module.getName().contains(\"module\")");
+
+                                Process proc = Runtime.getRuntime().exec("cmd.exe /c start cmd.exe /k \"java -jar " + module.getAbsolutePath()+"\"");
+                                //Process proc = Runtime.getRuntime().exec("java -jar " + module.getAbsolutePath());
+                                prcss.add(proc);
+                                i++;
+                            
+//                            proc.waitFor();
+//            InputStream is = proc.getInputStream();
+//            byte b[] = new byte[is.available()];
+//            is.read(b, 0, b.length);
+//            System.out.println(new String(b));
+                            }
                         } else {
                             if (module.getName().contains("jar")) {
                                 System.out.println("Continued load module: " + module.getName());
@@ -60,7 +73,7 @@ public static final String info="//System module info\n"
                         }
                     }
                 }
-                System.out.println("Loaded "+i+" modules");
+                System.out.println("Loaded " + i + " modules");
             } catch (NullPointerException ex) {
                 if (modulesDir.mkdir()) {
                     main(null);
@@ -105,6 +118,19 @@ public static final String info="//System module info\n"
             }
             cfg.setDefaultMode();
             main(null);
+        }
+        Thread.sleep(10000);
+        System.out.println("Shutdown process");
+        for (Process proc : prcss) {
+
+            proc.destroy();
+        }
+       // GuardUtils.check();
+        
+        try {
+            Runtime.getRuntime().exec("taskkill /f /im cmd.exe");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
