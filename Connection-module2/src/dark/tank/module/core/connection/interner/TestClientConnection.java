@@ -21,11 +21,13 @@ public class TestClientConnection {
      * @param args
      * @throws InterruptedException
      */
-
-    public static void send(String str, int port) throws InterruptedException {
+    public static void send(String str,int port) throws InterruptedException{
+    send(str,"localhost",port);
+    }
+    public static void send(String str, String ip,int port) throws InterruptedException {
 
 // запускаем подключение сокета по известным координатам и нициализируем приём сообщений с консоли клиента      
-        try(Socket socket = new Socket("localhost", port);  
+        try(Socket socket = new Socket(ip, port);  
                 
                 DataOutputStream oos = new DataOutputStream(socket.getOutputStream());)
         {

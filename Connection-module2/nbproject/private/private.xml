@@ -5,11 +5,11 @@
         <group>
             <file>file:/C:/Users/Витек/Desktop/Connection-module2/src/dark/tank/module/core/connection/interner/TestClientConnection.java</file>
             <file>file:/C:/Users/Витек/Desktop/Connection-module2/src/dark/tank/module/core/connection/interner/ClientManager.java</file>
-            <file>file:/C:/Users/Витек/Desktop/Connection-module2/src/dark/tank/module/core/connection/interner/ConnectionModule.java</file>
-            <file>file:/C:/Users/Витек/Desktop/Connection-module2/src/dark/tank/ClientConnection.java</file>
+            <file>file:/C:/Users/Витек/Desktop/Connection-module2/src/dark/tank/Module.java</file>
             <file>file:/C:/Users/Витек/Desktop/Connection-module2/src/dark/tank/module/core/ui/TestConnectionUI.java</file>
             <file>file:/C:/Users/Витек/Desktop/Connection-module2/src/dark/tank/module/core/util/PortList.java</file>
             <file>file:/C:/Users/Витек/Desktop/Connection-module2/src/dark/tank/Starter.java</file>
+            <file>file:/C:/Users/Витек/Desktop/Connection-module2/src/dark/tank/module/core/connection/interner/ConnectClient.java</file>
         </group>
     </open-files>
 </project-private>
